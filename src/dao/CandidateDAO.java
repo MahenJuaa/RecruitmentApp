@@ -1,11 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import connection.DBConnection;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Candidate;
@@ -20,11 +20,12 @@ public class CandidateDAO {
 
     public void insert(Candidate c) {
 
-        String query = "INSERT INTO candidates "
-                + "(name,path,writing,coding,interview,score,status) "
-                + "VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO recruit "
+                + "(nama, path, writing, coding, interview, score, status) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try {
+
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setString(1, c.getName());
@@ -38,6 +39,7 @@ public class CandidateDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
         }
     }
@@ -46,9 +48,10 @@ public class CandidateDAO {
 
         List<Candidate> list = new ArrayList<>();
 
-        String query = "SELECT * FROM candidates";
+        String query = "SELECT * FROM recruit";
 
         try {
+
             Statement st = conn.createStatement();
 
             ResultSet rs = st.executeQuery(query);
@@ -58,7 +61,7 @@ public class CandidateDAO {
                 Candidate c = new Candidate();
 
                 c.setId(rs.getInt("id"));
-                c.setName(rs.getString("name"));
+                c.setName(rs.getString("nama"));
                 c.setPath(rs.getString("path"));
                 c.setWriting(rs.getDouble("writing"));
                 c.setCoding(rs.getDouble("coding"));
@@ -68,6 +71,7 @@ public class CandidateDAO {
             }
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
         }
 
@@ -76,11 +80,13 @@ public class CandidateDAO {
 
     public void update(Candidate c) {
 
-        String query = "UPDATE candidates SET "
-                + "name=?, path=?, writing=?, coding=?, "
-                + "interview=?, score=?, status=? WHERE id=?";
+        String query = "UPDATE recruit SET "
+                + "nama=?, path=?, writing=?, coding=?, "
+                + "interview=?, score=?, status=? "
+                + "WHERE id=?";
 
         try {
+
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setString(1, c.getName());
@@ -95,15 +101,17 @@ public class CandidateDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
         }
     }
 
     public void delete(int id) {
 
-        String query = "DELETE FROM candidates WHERE id=?";
+        String query = "DELETE FROM recruit WHERE id=?";
 
         try {
+
             PreparedStatement ps = conn.prepareStatement(query);
 
             ps.setInt(1, id);
@@ -111,6 +119,7 @@ public class CandidateDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
+
             System.out.println(e.getMessage());
         }
     }
